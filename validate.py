@@ -70,4 +70,4 @@ str_type={"max":10,
           "min":4}
 int_type={"max":80,
           "min":16}
-print("Validation key only:",validate(dict,int_type,str_type))
+print("Validation value only:",validate(dict,int_type,str_type))
