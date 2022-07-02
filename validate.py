@@ -1,7 +1,8 @@
-def validate(dict,validate_rule):
+#validation Function
+def validate(data,validate_rule):
   k="All"
   result=True
-  for key, value in dict.items():
+  for key, value in data.items():
     for i in value["value"]:
       if (validate_rule.get(key, lambda x: False)(i))== False:
         result=False
@@ -10,28 +11,38 @@ def validate(dict,validate_rule):
   return k,result
 
 
-dict={"name":{"value":["kushal","Nabin"],"data_type":str,"min_length":4,"max_length":10},
-      "age":{"value":[25,28,34],"data_type":int,"min_value":16,"max_value":80},
-      "married":{"value":[True],"data_type":bool},
-      "address":{"value":["bhaktapur"],"data_type":str,"min_length":4,"max_length":15}
+#data
+data={"name":{"id":1, "value":["kushal","Nabin"],"data_type":str},
+      "age":{"id":2,"value":[24,28,34],"data_type":int},
+      "married":{"id":3,"value":[True],"data_type":bool},
+      "address":{"id":4,"value":["bhaktapur"],"data_type":str}
       }
 
+#Defining Rule
+rule={"id":{1:{"min":4,"max":20},
+            2:{"min":16,"max":80},
+            4:{"min":5,"max":20}}}
 
+
+#Making Validation Rule
 validate_rule={}
-for key,v in dict.items():
- 
+for key,v in data.items():
+  id_value=v["id"]
+  #String_type
   if v["data_type"]==str:
-    validate_rule[key]= lambda x: isinstance(x,str) and v["min_length"] <=len(x)<=v["max_length"]
+    validate_rule[key]= lambda x: isinstance(x,str) and rule["id"][id_value]["min"] <=len(x)<= rule["id"][id_value]["max"]
   
+  #Integer_type
   if v["data_type"]==int:
-    min=v["min_value"]
-    max=v["max_value"]
-    validate_rule[key]= lambda x: isinstance(x,int) and min <= x <= max
-  
+    min=rule["id"][id_value]["min"]
+    max=rule["id"][id_value]["max"]
+    validate_rule[key]= lambda x: isinstance(x,int) and min <= x <= max  
 
+  #Boolean_type
   if v["data_type"]==bool:
     validate_rule[key]= lambda x: isinstance(x,bool)
 
 
-k,result=validate(dict,validate_rule)
+k,result=validate(data,validate_rule)
 print(f"{k} Field is {result}")
+
