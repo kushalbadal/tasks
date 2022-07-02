@@ -1,73 +1,21 @@
 # validation function
-def validate(dict,int_type,str_type):
-    result="True"
-    for k in dict:
-        if type(k) == int:
-              if k>int_type["max"] or k<int_type["min"]:
-                result="False"
-                break
-        if type(k)== str:
-              if len(k)>str_type["max"] or len(k)<str_type["min"]:
-                result="False"
-                break
-        if type(k) == bool:
-          pass
-        if type(dict[k]) == str:
-              if len(dict[k])>str_type["max"] or len(dict[k])<str_type["min"]:
-                result="False"
-                break
-
-        if type(dict[k]) == int:
-              if dict[k]>int_type["max"] or dict[k]<int_type["min"]:
-                result="False"
-                break
-
-        if type(dict[k])==bool:
-                  pass
-    return result
+def validate(dict,validate_rule):
+  k="All"
+  result="True"
+  for key, value in dict.items():
+    if (validate_rule.get(key, lambda x: False)(value))== False:
+      result="False"
+      k=key
+      break
+  return k,result
 
 
-#initialize
-dict={20:24,"name":"kushal","married":False}
-print(dict)
-str_type={"max":10,
-          "min":4}
-int_type={"max":80,
-          "min":16}
-print("Validation key and value:",validate(dict,int_type,str_type))
+dict={"name":"kushal","age":25,"married":False}
+validate_rule = {
+    "name": lambda x: isinstance(x, str) and 4 <=len(x)<=10,
+    "age": lambda x: isinstance(x, int) and 16 <=x <=80,
+    "married": lambda x: isinstance(x, bool) ,
+}
 
-#validating value
-def validate(dict,int_type,str_type):
-    result="True"
-    for k in dict:
-        if type(k) == int:
-            if type(dict[k]) == int:
-              if dict[k]>int_type["max"] or dict[k]<int_type["min"]:
-                result="False"
-                break
-            else:
-              if type(dict[k])==bool:
-                pass
-              else:
-                result="False"
-                break
-        if type(k)== str:
-            if type(dict[k]) == str:
-              if len(dict[k])>str_type["max"] or len(dict[k])<str_type["min"]:
-                result="False"
-                break
-            else:
-              if type(dict[k])==bool:
-                pass
-              else:
-                result="False"
-                break
-    return result
-
-dict={20:24,"name":"kushal","married":True}
-print(dict)
-str_type={"max":10,
-          "min":4}
-int_type={"max":80,
-          "min":16}
-print("Validation value only:",validate(dict,int_type,str_type))
+k,result=validate(dict,validate_rule)
+print(f"{k} Field is {result}")
