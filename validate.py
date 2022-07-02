@@ -1,4 +1,3 @@
-# validation function
 def validate(dict,validate_rule):
   k="All"
   result=True
