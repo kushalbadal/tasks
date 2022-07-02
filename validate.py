@@ -11,23 +11,23 @@ def validate(dict,validate_rule):
   return k,result
 
 
-dict={"name":{"value":["kushal","Nabin"],"data_type":str},
-      "age":{"value":[25,28,34],"data_type":int},
+dict={"name":{"value":["kushal","Nabin"],"data_type":str,"min_length":4,"max_length":10},
+      "age":{"value":[25,28,34],"data_type":int,"min_value":16,"max_value":80},
       "married":{"value":[True],"data_type":bool},
-      "address":{"value":["bhaktapur"],"data_type":str}
+      "address":{"value":["bhaktapur"],"data_type":str,"min_length":4,"max_length":15}
       }
-string_rule={"min_length":4,
-                     "max_length":10}
-integer_rule= {"min_value":16,
-                      "max_value":80}
+
 
 validate_rule={}
 for key,v in dict.items():
+ 
   if v["data_type"]==str:
-    validate_rule[key]= lambda x: isinstance(x,str) and string_rule["min_length"] <=len(x)<=string_rule["max_length"]
+    validate_rule[key]= lambda x: isinstance(x,str) and v["min_length"] <=len(x)<=v["max_length"]
   
   if v["data_type"]==int:
-    validate_rule[key]= lambda x: isinstance(x,int) and integer_rule["min_value"] <= x <=integer_rule["max_value"]
+    min=v["min_value"]
+    max=v["max_value"]
+    validate_rule[key]= lambda x: isinstance(x,int) and min <= x <= max
   
 
   if v["data_type"]==bool:
