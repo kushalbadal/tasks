@@ -1,22 +1,27 @@
+from difflib import SequenceMatcher
+import pandas as pd
 
 data1={"District":["kathmandu","Kavre palanchowk","Dhanusa"],
-       "KPI_1":[0.8,0.75,0.85]}
+       "KPI_1":[.8,.75,.85]}
 
 data2={"District":["kathmandu","Kavrepalanchowk","Dhanusha"],
-       "KPI_2":[0.35,0.65,0.6]}
+       "KPI_2":[.35,.65,.6]}
+
+#check for same data
+count1=0
+count2=0
+for i in data2["District"]:
+  for j in data1["District"]:
+    if (SequenceMatcher(None, i,j ).ratio())>0.9:
+      data1["District"][count2]=data2["District"][count1]
+    count2=count2+1
+  count2=0
+  count1=count1+1
 
 
-coln=[]
-merged_data=data1
-for i in data2.keys():
-    if i in data1.keys():
-      pass
-    else:
-      coln.append(i)
-    pass
+df1=pd.DataFrame(data1)
+df2=pd.DataFrame(data2)
 
-for key in coln:
-  merged_data[key]=data2[key]
 
-  
-print(merged_data)
+data1=df1.merge(df2,how='inner')
+print(data1)
