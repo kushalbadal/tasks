@@ -24,7 +24,7 @@ temp=""
 key=[]
 
 #parsing and saving parsed content
-f=open('data.csv', 'w')
+f=open('parsed.csv', 'w')
 for line in lines:
   line=line.split("\n")
   for i in line:
