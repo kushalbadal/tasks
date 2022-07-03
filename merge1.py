@@ -1,5 +1,5 @@
 
-data1={"District":["kathmandu","Kavrepalanchowk","Dhanusha"],
+data1={"District":["kathmandu","Kavre palanchowk","Dhanusa"],
        "KPI_1":[0.8,0.75,0.85]}
 
 data2={"District":["kathmandu","Kavrepalanchowk","Dhanusha"],
