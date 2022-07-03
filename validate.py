@@ -2,23 +2,26 @@
 def validate(data,validate_rule):
   k="All"
   result=True
-  search_required=[i for i,v in schema.items() if v["required"]==True]
   
-  #validate required
-  for search in search_required:
-    if search in data.keys():
-      pass
-    else:
-      return search,"required"
+  #validation
+  for key, value in schema.items():
+    #validate only keys present in schemas and required
+    if value["required"]==True:
+      if key in data.keys():
+        if (validate_rule.get(key, lambda x: False)(data[key]))== False:
+          result=False
+          k=key
+          break
+      else:
+        return key,"required"
 
-  #validate rule
-  for key, value in data.items():
-    #validate fields present in schemas otherwise leave as it is
-    if key in schema.keys():
-      if (validate_rule.get(key, lambda x: False)(value))== False:
-        result=False
-        k=key
-        break
+    #validate not required field
+    else:
+      if key in data.keys():
+        if (validate_rule.get(key, lambda x: False)(data[key]))== False:
+            result=False
+            k=key
+            break
   return k,result
 
 
@@ -51,7 +54,8 @@ data={"name":"kushal",
       "age":22,
       "married":True,
       "address":"Bhaktapur",
-      "group": "yellow"
+      "group":"yellow",
+      "country":"Nepal"
       }
 
 #testing 
