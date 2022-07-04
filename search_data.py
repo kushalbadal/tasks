@@ -1,20 +1,31 @@
-#search function
+global searched_data
+searched_data={}
+
 def search_sentence(search_term,data_list):
-  searched_data=[]
+  global searched_data
+  temp=[]
   for sentence in data_list:
     if search_term in sentence:
-      searched_data.append(sentence)
+      temp.append(sentence)
+  searched_data[search_term]=temp
+  return  searched_data[search_term]
 
-  return searched_data
 
 
-#data
 data_list=["Trying to make a list","I'll update your address list virtually over the next few years.","It is raining heavily.","There are two people on my list."]
-search_term = "list"
 
-#check the search word
-if len(search_term.split())==1:
-  searched_data=search_sentence(search_term,data_list)
-  print(searched_data)
-else:
-  print("Give a single word for search")
+
+loop= True
+while loop:
+  search_term = input("enter a word to search")
+  if len(search_term.split())==1:
+      if search_term in searched_data.keys():
+        searched=searched_data[search_term]
+      else:
+        searched=search_sentence(search_term,data_list)
+      print(searched)
+  else:
+    print("Give a single word for search")
+
+  if input("enter q to continue")!='q':
+    loop=False
